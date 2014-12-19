@@ -37,7 +37,7 @@ func (b Buffer) Bits() int32 {
 	panic("not yet implemented")
 }
 
-func (b Buffer) AppendData(format int32, freq int32, data []byte) error {
+func (b Buffer) AppendData(format int32, freq int32, data []byte) {
 	panic("not yet implemented")
 }
 
@@ -47,19 +47,19 @@ func GenSource() Source {
 	panic("not yet implemented")
 }
 
-func PlaySources(s []Source) error {
+func PlaySources(s []Source) {
 	panic("not yet implemented")
 }
 
-func StopSources(s []Source) error {
+func StopSources(s []Source) {
 	panic("not yet implemented")
 }
 
-func PauseSources(s []Source) error {
+func PauseSources(s []Source) {
 	panic("not yet implemented")
 }
 
-func RewindSources(s []Source) error {
+func RewindSources(s []Source) {
 	panic("not yet implemented")
 }
 
