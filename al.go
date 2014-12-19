@@ -37,7 +37,7 @@ func (b Buffer) Bits() int32 {
 	panic("not yet implemented")
 }
 
-func (b Buffer) AppendData(format int32, freq int32, data []byte) {
+func (b Buffer) AppendData(format int32, data []byte, freq int32) {
 	panic("not yet implemented")
 }
 
