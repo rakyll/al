@@ -5,3 +5,57 @@
 package al
 
 type Source int32
+
+func GenSources(n int) []Source {
+	panic("not yet implemented")
+}
+
+func PlaySources(s []Source) {
+	panic("not yet implemented")
+}
+
+func PauseSources(s []Source) {
+	panic("not yet implemented")
+}
+
+func StopSources(s []Source) {
+	panic("not yet implemented")
+}
+
+func RewindSources(s []Source) {
+	panic("not yet implemented")
+}
+
+func DeleteSources(s []Source) {
+	panic("not yet implemented")
+}
+
+func (s Source) Gain() float32 {
+	panic("not yet implemented")
+}
+
+func (s Source) Gain(v float32) {
+	panic("not yet implemented")
+}
+
+func (s Source) MaxGain() float32 {
+	panic("not yet implemented")
+}
+
+func (s Source) SetMaxGain(v float32) {
+	panic("not yet implemented")
+}
+
+func (s Source) MinGain() float32 {
+	panic("not yet implemented")
+}
+
+func (s Source) SetMinGain(v float32) {
+	panic("not yet implemented")
+}
+
+func (s Source) Position() (float32, float32, float32) {
+	panic("not yet implemented")
+}
+
+// TODO(jbd): Add SetPosition.
