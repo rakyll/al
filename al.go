@@ -2,6 +2,7 @@ package al
 
 /*
 #cgo darwin LDFLAGS: -framework OpenAL
+#cgo linux LDFLAGS: /openal-soft/libs/armeabi/libopenal.so
 #cgo darwin  CFLAGS: -DGOOS_darwin
 #cgo linux   CFLAGS: -DGOOS_linux
 
@@ -10,9 +11,8 @@ package al
 #endif
 
 #ifdef GOOS_linux
-#include "OpenAL/al.h"
+#include "/openal-soft/jni/OpenAL/include/AL/al.h"
 #endif
-
 */
 import "C"
 
