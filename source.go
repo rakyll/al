@@ -34,7 +34,7 @@ func (s Source) Gain() float32 {
 	panic("not yet implemented")
 }
 
-func (s Source) Gain(v float32) {
+func (s Source) SetGain(v float32) {
 	panic("not yet implemented")
 }
 
