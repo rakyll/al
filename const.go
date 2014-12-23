@@ -28,8 +28,8 @@ const (
 // Buffer properties
 
 const (
-	FREQUENCY = 0x2001
-	BITS      = 0x2002
-	CHANNELS  = 0x2003
-	SIZE      = 0x2004
+	pFrequency = 0x2001
+	pBits      = 0x2002
+	pChannels  = 0x2003
+	pSize      = 0x2004
 )
