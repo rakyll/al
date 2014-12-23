@@ -16,6 +16,34 @@ package al
 */
 import "C"
 
+func DistanceModel() int32 {
+	panic("not implemented")
+}
+
+func DopplerFactor() float32 {
+	panic("not implemented")
+}
+
+func DopplerVelocity() float32 {
+	panic("not implemented")
+}
+
+func SpeedOfSound() float32 {
+	panic("not implemented")
+}
+
+func SetDopplerFactor(v float32) {
+	panic("not implemented")
+}
+
+func SetDopplerVelocity(v float32) {
+	panic("not implemented")
+}
+
+func SetSpeedOfSound(v float32) {
+	panic("not implemented")
+}
+
 type Buffer int32
 
 func GenBuffers(n int) []Buffer {
