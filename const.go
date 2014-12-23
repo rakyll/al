@@ -4,8 +4,12 @@
 
 package al
 
-// Error codes.
+const (
+	kFalse = 0
+	kTrue  = 1
+)
 
+// al.Error returns one of these error codes.
 const (
 	NO_ERROR          = 0
 	INVALID_NAME      = 0xA001
@@ -15,6 +19,7 @@ const (
 	OUT_OF_MEMORY     = 0xA005
 )
 
+// Distance models.
 const (
 	DISTANCE_MODEL            = 0xD000
 	INVERSE_DISTANCE          = 0xD001
@@ -26,7 +31,6 @@ const (
 )
 
 // Buffer properties
-
 const (
 	pFrequency = 0x2001
 	pBits      = 0x2002

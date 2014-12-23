@@ -21,18 +21,17 @@ package al
 import "C"
 
 // TODO(jbd): alc?
-//
 
 func Enable(capability int32) {
-	panic("not implemented")
+	C.alEnable(C.ALenum(capability))
 }
 
 func Disable(capability int32) {
-	panic("not implemented")
+	C.alDisable(C.ALenum(capability))
 }
 
 func Enabled(capability int32) bool {
-	panic("not implemented")
+	return toBool(C.alIsEnabled(C.ALenum(capability)))
 }
 
 func DistanceModel() int32 {
@@ -97,6 +96,11 @@ func (b Buffer) Valid() bool {
 	panic("not yet implemented")
 }
 
+// Error returns the most recently generated error.
 func Error() uint32 {
 	return uint32(C.alGetError())
+}
+
+func toBool(v C.ALboolean) bool {
+	return int32(v) == kTrue
 }
