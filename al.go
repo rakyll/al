@@ -1,3 +1,7 @@
+// Copyright 2014 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package al
 
 /*
@@ -92,8 +96,6 @@ func (b Buffer) CopyData(format int32, data []byte, freq int32) int32 {
 func (b Buffer) Valid() bool {
 	panic("not yet implemented")
 }
-
-type Source int32
 
 func Error() uint32 {
 	return uint32(C.alGetError())
