@@ -89,7 +89,7 @@ func (b Buffer) Bits() int32 {
 	panic("not yet implemented")
 }
 
-func (b Buffer) CopyData(format int32, data []byte, freq int32) int32 {
+func (b Buffer) SetData(format int32, data []byte, freq int32) int32 {
 	panic("not yet implemented")
 }
 
