@@ -4,6 +4,17 @@
 
 package al
 
+// Error codes.
+
+const (
+	NO_ERROR          = 0
+	INVALID_NAME      = 0xA001
+	INVALID_ENUM      = 0xA002
+	INVALID_VALUE     = 0xA003
+	INVALID_OPERATION = 0xA004
+	OUT_OF_MEMORY     = 0xA005
+)
+
 const (
 	DISTANCE_MODEL            = 0xD000
 	INVERSE_DISTANCE          = 0xD001
