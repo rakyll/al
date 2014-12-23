@@ -13,3 +13,12 @@ const (
 	EXPONENT_DISTANCE         = 0xD005
 	EXPONENT_DISTANCE_CLAMPED = 0xD006
 )
+
+// Buffer properties
+
+const (
+	AL_FREQUENCY = 0x2001
+	AL_BITS      = 0x2002
+	AL_CHANNELS  = 0x2003
+	AL_SIZE      = 0x2004
+)
