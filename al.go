@@ -16,6 +16,21 @@ package al
 */
 import "C"
 
+// TODO(jbd): alc?
+//
+
+func Enable(capability int32) {
+	panic("not implemented")
+}
+
+func Disable(capability int32) {
+	panic("not implemented")
+}
+
+func Enabled(capability int32) bool {
+	panic("not implemented")
+}
+
 func DistanceModel() int32 {
 	panic("not implemented")
 }
