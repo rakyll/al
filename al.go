@@ -62,40 +62,6 @@ func SetSpeedOfSound(v float32) {
 	panic("not implemented")
 }
 
-type Buffer int32
-
-func GenBuffers(n int) []Buffer {
-	panic("not yet imeplemented")
-}
-
-func DeleteBuffers(b []Buffer) {
-	panic("not yet imeplemented")
-}
-
-func (b Buffer) Freq() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) Channels() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) Size() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) Bits() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) SetData(format int32, data []byte, freq int32) int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) Valid() bool {
-	panic("not yet implemented")
-}
-
 // Error returns the most recently generated error.
 func Error() uint32 {
 	return uint32(C.alGetError())
