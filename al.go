@@ -5,22 +5,17 @@
 package al
 
 /*
-#cgo darwin  LDFLAGS: -framework OpenAL
-#cgo linux   LDFLAGS: /openal-soft/libs/armeabi/libopenal.so
-#cgo darwin  CFLAGS: -DGOOS_darwin
-#cgo linux   CFLAGS: -DGOOS_linux
+#cgo android  CFLAGS: -DGOOS_android
+#cgo android  CFLAGS: -DMAX_SOURCES_LOW=4 -DMAX_SOURCES_START=8 -DMAX_SOURCES_HIGH=64
+#cgo android  CFLAGS: -marm -DOPENAL_FIXED_POINT -DOPENAL_FIXED_POINT_SHIFT=16 -DPOST_FROYO -DAL_ALEXT_PROTOTYPES -fpic -ffunction-sections -DANDROID -funwind-tables -fstack-protector -DHAVE_GCC_VISIBILITY -O3 -fno-short-enums -g
+#cgo android  CFLAGS: -I/usr/local/android-ndk-r9d/platforms/android-9/arch-arm/usr/include/
+#cgo android  LDFLAGS: -Wl,--build-id -Bsymbolic -lm -llog -ldl -L/usr/local/android-ndk-r9d/platforms/android-9/arch-arm/usr/lib/
 
-#ifdef GOOS_darwin
-#include <OpenAL/al.h>
-#endif
-
-#ifdef GOOS_linux
-#include "/openal-soft/jni/OpenAL/include/AL/al.h"
+#ifdef GOOS_android
+#include "al.h"
 #endif
 */
 import "C"
-
-// TODO(jbd): alc?
 
 func Enable(capability int32) {
 	C.alEnable(C.ALenum(capability))
