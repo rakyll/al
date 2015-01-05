@@ -15,6 +15,13 @@ package al
 #ifdef GOOS_android
 #include "al.h"
 #endif
+
+#cgo darwin  LDFLAGS: -framework OpenAL
+#cgo darwin  CFLAGS: -DGOOS_darwin
+
+#ifdef GOOS_darwin
+#include <OpenAL/al.h>
+#endif
 */
 import "C"
 
