@@ -4,6 +4,8 @@
 
 package al
 
+// docker run -v $GOPATH/src:/src mobile /bin/bash -c 'cd /src/github.com/rakyll/al && CGO_ENABLED=1 GOARCH=arm GOARM=7  GOOS=android  go build  .'
+
 /*
 #cgo android  CFLAGS: -DGOOS_android -DANDROID
 #cgo android  CFLAGS: -DMAX_SOURCES_LOW=4 -DMAX_SOURCES_START=8 -DMAX_SOURCES_HIGH=64
