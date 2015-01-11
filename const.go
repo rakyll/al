@@ -9,7 +9,7 @@ const (
 	kTrue  = 1
 )
 
-// al.Error returns one of these error codes.
+// Error returns one of these error codes.
 const (
 	NO_ERROR          = 0
 	INVALID_NAME      = 0xA001

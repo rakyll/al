@@ -54,8 +54,37 @@ func (s Source) SetMinGain(v float32) {
 	panic("not yet implemented")
 }
 
-func (s Source) Position() (float32, float32, float32) {
+func (s Source) Position() Vector {
 	panic("not yet implemented")
 }
 
-// TODO(jbd): Add SetPosition.
+func (s Source) SetPosition(v Vector) {
+	panic("not yet implemented")
+}
+
+type Vector struct {
+	X, Y, Z float32
+}
+
+type Orientation struct {
+	Forward Vector
+	Up      Vector
+}
+
+type Listener struct{}
+
+func (l Listener) Gain() float32 {
+	panic("not yet implemented")
+}
+
+func (l Listener) Position() Vector {
+	panic("not yet implemented")
+}
+
+func (l Listener) Velocity() Vector {
+	panic("not yet implemented")
+}
+
+func (l Listener) Orientation() Orientation {
+	panic("not yet implemented")
+}
