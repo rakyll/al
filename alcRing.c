@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <string.h>
@@ -129,3 +131,5 @@ void ReadRingBuffer(RingBuffer *ring, ALubyte *data, ALsizei len)
 
     LeaveCriticalSection(&ring->cs);
 }
+
+#endif

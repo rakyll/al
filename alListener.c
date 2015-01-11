@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include "alMain.h"
@@ -495,3 +497,5 @@ AL_API void AL_APIENTRY alGetListeneriv(ALenum eParam, ALint* plValues)
 
     ProcessContext(pContext);
 }
+
+#endif

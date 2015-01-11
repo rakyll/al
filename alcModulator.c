@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <math.h>
@@ -227,3 +229,5 @@ ALeffectState *ModulatorCreate(void)
 
     return &state->state;
 }
+
+#endif

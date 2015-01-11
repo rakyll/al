@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <stdio.h>
@@ -1369,3 +1371,5 @@ ALeffectState *EAXVerbCreate(void)
     }
     return State;
 }
+
+#endif

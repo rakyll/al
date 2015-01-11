@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include "alMain.h"
@@ -47,3 +49,5 @@ ALvoid alSetError(ALCcontext *Context, ALenum errorCode)
     if(Context->LastError == AL_NO_ERROR)
         Context->LastError = errorCode;
 }
+
+#endif

@@ -18,6 +18,8 @@
  * It is based on source code for the native-audio sample app bundled with NDK.
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include <stdlib.h>
 #include <time.h>
 #include <sys/types.h>
@@ -798,3 +800,5 @@ void alc_opensles_probe(int type)
         break;
     }
 }
+
+#endif

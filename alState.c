@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <stdlib.h>
@@ -659,3 +661,5 @@ AL_API ALvoid AL_APIENTRY alDistanceModel(ALenum value)
 
     ProcessContext(Context);
 }
+
+#endif

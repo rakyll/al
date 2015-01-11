@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <stdlib.h>
@@ -430,3 +432,5 @@ static void InitFilterParams(ALfilter *filter, ALenum type)
     filter->Gain = int2ALfp(1);
     filter->GainHF = int2ALfp(1);
 }
+
+#endif

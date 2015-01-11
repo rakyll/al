@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #ifdef _WIN32
 #ifdef __MINGW64__
 #define _WIN32_IE 0x501
@@ -336,3 +338,5 @@ int GetConfigValueBool(const char *blockName, const char *keyName, int def)
     return (strcasecmp(val, "true") == 0 || strcasecmp(val, "yes") == 0 ||
             strcasecmp(val, "on") == 0 || atoi(val) != 0);
 }
+
+#endif

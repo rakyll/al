@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <math.h>
@@ -811,3 +813,5 @@ ALvoid MixSource(ALsource *Source, ALCdevice *Device, ALuint SamplesToDo)
     Source->position_fraction = DataPosFrac;
     Source->Buffer            = BufferListItem->buffer;
 }
+
+#endif

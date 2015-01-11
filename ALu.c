@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <math.h>
@@ -1116,3 +1118,5 @@ ALvoid aluHandleDisconnect(ALCdevice *device)
     device->Connected = ALC_FALSE;
     ProcessContext(NULL);
 }
+
+#endif

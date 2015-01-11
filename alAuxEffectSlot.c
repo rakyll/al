@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <stdlib.h>
@@ -526,3 +528,5 @@ ALvoid ReleaseALAuxiliaryEffectSlots(ALCcontext *Context)
         free(temp);
     }
 }
+
+#endif

@@ -18,6 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
+#ifdef AL_SOURCE_BUILD
+
 #include "config.h"
 
 #include <stdlib.h>
@@ -109,3 +111,5 @@ ALvoid *alThunkLookupEntry(ALuint index)
 
     return ptr;
 }
+
+#endif
