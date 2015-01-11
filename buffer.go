@@ -10,7 +10,7 @@ func GenBuffers(n int) []Buffer {
 	panic("not yet imeplemented")
 }
 
-func DeleteBuffers(b []Buffer) {
+func DeleteBuffers(buffer ...Buffer) {
 	panic("not yet imeplemented")
 }
 

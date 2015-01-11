@@ -10,23 +10,23 @@ func GenSources(n int) []Source {
 	panic("not yet implemented")
 }
 
-func PlaySources(s []Source) {
+func PlaySources(source ...Source) {
 	panic("not yet implemented")
 }
 
-func PauseSources(s []Source) {
+func PauseSources(source ...Source) {
 	panic("not yet implemented")
 }
 
-func StopSources(s []Source) {
+func StopSources(source ...Source) {
 	panic("not yet implemented")
 }
 
-func RewindSources(s []Source) {
+func RewindSources(source ...Source) {
 	panic("not yet implemented")
 }
 
-func DeleteSources(s []Source) {
+func DeleteSources(source ...Source) {
 	panic("not yet implemented")
 }
 
@@ -62,6 +62,25 @@ func (s Source) SetPosition(v Vector) {
 	panic("not yet implemented")
 }
 
+func (s Source) QueueBuffers(buffer ...Buffer) {
+	panic("not yet implemented")
+}
+
+// TODO(jbd): Add SetPosition.
+//
+/*
+ * LISTENER
+ * Listener represents the location and orientation of the
+ * 'user' in 3D-space.
+ *
+ * Properties include: -
+ *
+ * Gain         AL_GAIN         ALfloat
+ * Position     AL_POSITION     ALfloat[3]
+ * Velocity     AL_VELOCITY     ALfloat[3]
+ * Orientation  AL_ORIENTATION  ALfloat[6] (Forward then Up vectors)
+ */
+
 type Vector struct {
 	X, Y, Z float32
 }
@@ -86,5 +105,21 @@ func (l Listener) Velocity() Vector {
 }
 
 func (l Listener) Orientation() Orientation {
+	panic("not yet implemented")
+}
+
+func (l Listener) SetGain(v float32) {
+	panic("not yet implemented")
+}
+
+func (l Listener) SetPosition(v Vector) {
+	panic("not yet implemented")
+}
+
+func (l Listener) SetVelocity(v Vector) {
+	panic("not yet implemented")
+}
+
+func (l Listener) SetOrientation(o Orientation) {
 	panic("not yet implemented")
 }
