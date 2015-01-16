@@ -15,14 +15,22 @@ package al
 #cgo android  LDFLAGS: -Wl,--build-id -Bsymbolic -lm -llog -ldl
 
 #ifdef GOOS_android
+#include <stdlib.h>
 #include "al.h"
 #endif
 
 #cgo darwin  LDFLAGS: -framework OpenAL
 
 #ifdef GOOS_darwin
+#include <stdlib.h>
 #include <OpenAL/al.h>
+#include <OpenAL/alc.h>
 #endif
+
+ALCdevice *castAlcOpenDevice(const char *devicename) {
+	return alcOpenDevice(devicename);
+}
+
 */
 import "C"
 import "unsafe"
@@ -36,7 +44,7 @@ func Disable(capability int32) {
 }
 
 func Enabled(capability int32) bool {
-	return toBool(C.alIsEnabled(C.ALenum(capability)))
+	return toBoolAL(C.alIsEnabled(C.ALenum(capability)))
 }
 
 func DistanceModel() int32 {
@@ -72,7 +80,11 @@ func Error() uint32 {
 	return uint32(C.alGetError())
 }
 
-func toBool(v C.ALboolean) bool {
+func toBoolAL(v C.ALboolean) bool {
+	return int32(v) == kTrue
+}
+
+func toBoolALC(v C.ALCboolean) bool {
 	return int32(v) == kTrue
 }
 
@@ -205,7 +217,13 @@ func (l Listener) SetOrientation(o Orientation) {
 type Buffer int32
 
 func GenBuffers(n int) []Buffer {
-	panic("not yet imeplemented")
+	s := make([]C.ALuint, n)
+	C.alGenBuffers(C.ALsizei(n), (*C.ALuint)(unsafe.Pointer(&s[0])))
+	r := make([]Buffer, n)
+	for i, v := range s {
+		r[i] = Buffer(v)
+	}
+	return r
 }
 
 func DeleteBuffers(buffer ...Buffer) {
@@ -228,10 +246,43 @@ func (b Buffer) Bits() int32 {
 	panic("not yet implemented")
 }
 
-func (b Buffer) SetData(format int32, data []byte, freq int32) int32 {
-	panic("not yet implemented")
+func (b Buffer) BufferData(format int32, data []int32, freq int32) {
+	C.alBufferData(C.ALuint(b), C.ALenum(format), unsafe.Pointer(&data[0]), C.ALsizei(len(data)), C.ALsizei(freq))
 }
 
 func (b Buffer) Valid() bool {
 	panic("not yet implemented")
+}
+
+// ------------------------ ALC (Move to the alc package)
+
+type Device struct {
+	d *C.ALCdevice
+}
+
+type Context struct {
+	c *C.ALCcontext
+}
+
+func OpenDevice(name string) *Device {
+	n := C.CString(name)
+	defer C.free(unsafe.Pointer(n))
+	d := C.castAlcOpenDevice(n)
+	return &Device{d: d}
+}
+
+// context management
+
+func CreateContext(d *Device, attrs []int32) *Context {
+	// TODO: handle attributes
+	c := C.alcCreateContext(d.d, nil)
+	return &Context{c: c}
+}
+
+func MakeContextCurrent(c *Context) bool {
+	return toBoolALC(C.alcMakeContextCurrent(c.c))
+}
+
+func AlcError(d *Device) uint32 {
+	return uint32(C.alcGetError(d.d))
 }
