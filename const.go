@@ -11,7 +11,6 @@ const (
 
 // Error returns one of these error codes.
 const (
-	NO_ERROR          = 0
 	INVALID_NAME      = 0xA001
 	INVALID_ENUM      = 0xA002
 	INVALID_VALUE     = 0xA003
@@ -30,7 +29,8 @@ const (
 	EXPONENT_DISTANCE_CLAMPED = 0xD006
 )
 
-// Buffer formats.
+// Buffer formats. Buffer.BufferData accepts one of these formats
+// as the data format.
 const (
 	FORMAT_MONO8    = 0x1100
 	FORMAT_MONO16   = 0x1101

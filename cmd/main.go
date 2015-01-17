@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+	"io/ioutil"
+	"log"
 	"time"
 
 	"github.com/rakyll/al"
 )
 
-const size = 100000
+const size = 10
 
 func main() {
 	fmt.Println(al.Error())
@@ -19,26 +20,16 @@ func main() {
 	fmt.Println(al.MakeContextCurrent(c))
 
 	sources := al.GenSources(1)
-
 	bufs := al.GenBuffers(1)
-	fmt.Println(bufs)
 
-	data := make([]int32, size)
-	for i := 0; i < size; i++ {
-		data[i] = rand.Int31()
+	data, err := ioutil.ReadFile("8k16bitpcm.wav")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	bufs[0].BufferData(al.FORMAT_STEREO16, data, 4000)
+	bufs[0].BufferData(al.FORMAT_MONO16, data, 8000)
 	sources[0].QueueBuffers(bufs[0])
 	al.PlaySources(sources...)
-
-	go func() {
-		time.Sleep(time.Second)
-		al.PauseSources(sources...)
-		time.Sleep(time.Second)
-		al.PlaySources(sources...)
-	}()
-
 	time.Sleep(10 * time.Second)
 
 }

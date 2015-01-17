@@ -96,14 +96,6 @@ func Error() uint32 {
 	return uint32(C.alGetError())
 }
 
-func toBoolAL(v C.ALboolean) bool {
-	return int32(v) == kTrue
-}
-
-func toBoolALC(v C.ALCboolean) bool {
-	return int32(v) == kTrue
-}
-
 type Source int32
 
 func GenSources(n int) []Source {
@@ -263,12 +255,16 @@ func (b Buffer) Bits() int32 {
 	panic("not yet implemented")
 }
 
-func (b Buffer) BufferData(format int32, data []int32, freq int32) {
+func (b Buffer) BufferData(format int32, data []byte, freq int32) {
 	C.alBufferData(C.ALuint(b), C.ALenum(format), unsafe.Pointer(&data[0]), C.ALsizei(len(data)), C.ALsizei(freq))
 }
 
 func (b Buffer) Valid() bool {
 	panic("not yet implemented")
+}
+
+func toBoolAL(v C.ALboolean) bool {
+	return int32(v) == kTrue
 }
 
 // ------------------------ ALC (Move to the alc package)
@@ -298,6 +294,12 @@ func MakeContextCurrent(c *Context) bool {
 	return toBoolALC(C.alcMakeContextCurrent(c.c))
 }
 
+// TODO: move to acl package and add constants.
+
 func AlcError(d *Device) uint32 {
 	return uint32(C.alcGetError(d.d))
+}
+
+func toBoolALC(v C.ALCboolean) bool {
+	return int32(v) == kTrue
 }
