@@ -31,6 +31,14 @@ ALCdevice *castAlcOpenDevice(const char *devicename) {
 	return alcOpenDevice(devicename);
 }
 
+void castAlSourceQueueBuffers(ALuint sid, ALsizei numEntries, const void *bids) {
+	return alSourceQueueBuffers(sid, numEntries, bids);
+}
+
+void castAlSourcePlayv( ALsizei ns, const void *sids ) {
+	return alSourcePlayv(ns, sids);
+}
+
 */
 import "C"
 import "unsafe"
@@ -101,7 +109,7 @@ func GenSources(n int) []Source {
 }
 
 func PlaySources(source ...Source) {
-	panic("not yet implemented")
+	C.castAlSourcePlayv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func PauseSources(source ...Source) {
@@ -153,7 +161,8 @@ func (s Source) SetPosition(v Vector) {
 }
 
 func (s Source) QueueBuffers(buffer ...Buffer) {
-	panic("not yet implemented")
+	n := len(buffer)
+	C.castAlSourceQueueBuffers(C.ALuint(s), C.ALsizei(n), unsafe.Pointer(&buffer[0]))
 }
 
 // TODO(jbd): Add SetPosition.
@@ -270,8 +279,6 @@ func OpenDevice(name string) *Device {
 	d := C.castAlcOpenDevice(n)
 	return &Device{d: d}
 }
-
-// context management
 
 func CreateContext(d *Device, attrs []int32) *Context {
 	// TODO: handle attributes
