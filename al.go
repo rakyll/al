@@ -31,12 +31,20 @@ ALCdevice *castAlcOpenDevice(const char *devicename) {
 	return alcOpenDevice(devicename);
 }
 
-void castAlSourceQueueBuffers(ALuint sid, ALsizei numEntries, const void *bids) {
+void castALSourceQueueBuffers(ALuint sid, ALsizei numEntries, const void *bids) {
 	return alSourceQueueBuffers(sid, numEntries, bids);
 }
 
-void castAlSourcePlayv( ALsizei ns, const void *sids ) {
+void castALSourcePlayv(ALsizei ns, const void *sids ) {
 	return alSourcePlayv(ns, sids);
+}
+
+void castALSourcePausev(ALsizei ns, const void *sids ) {
+	return alSourcePausev(ns, sids);
+}
+
+void castALSourceStopv(ALsizei ns, const void *sids ) {
+	return alSourceStopv(ns, sids);
 }
 
 */
@@ -109,15 +117,15 @@ func GenSources(n int) []Source {
 }
 
 func PlaySources(source ...Source) {
-	C.castAlSourcePlayv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+	C.castALSourcePlayv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func PauseSources(source ...Source) {
-	panic("not yet implemented")
+	C.castALSourcePausev(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func StopSources(source ...Source) {
-	panic("not yet implemented")
+	C.castALSourceStopv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func RewindSources(source ...Source) {
@@ -162,7 +170,7 @@ func (s Source) SetPosition(v Vector) {
 
 func (s Source) QueueBuffers(buffer ...Buffer) {
 	n := len(buffer)
-	C.castAlSourceQueueBuffers(C.ALuint(s), C.ALsizei(n), unsafe.Pointer(&buffer[0]))
+	C.castALSourceQueueBuffers(C.ALuint(s), C.ALsizei(n), unsafe.Pointer(&buffer[0]))
 }
 
 // TODO(jbd): Add SetPosition.
