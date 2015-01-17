@@ -30,6 +30,14 @@ const (
 	EXPONENT_DISTANCE_CLAMPED = 0xD006
 )
 
+// Buffer formats.
+const (
+	FORMAT_MONO8    = 0x1100
+	FORMAT_MONO16   = 0x1101
+	FORMAT_STEREO8  = 0x1102
+	FORMAT_STEREO16 = 0x1103
+)
+
 // Buffer properties
 const (
 	pFrequency = 0x2001
