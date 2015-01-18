@@ -15,9 +15,7 @@ func main() {
 	fmt.Println(al.Error())
 	d := al.OpenDevice("")
 	c := al.CreateContext(d, nil)
-	fmt.Println(c)
-
-	fmt.Println(al.MakeContextCurrent(c))
+	al.MakeContextCurrent(c)
 
 	sources := al.GenSources(1)
 	bufs := al.GenBuffers(1)
@@ -29,7 +27,11 @@ func main() {
 
 	bufs[0].BufferData(al.FORMAT_MONO16, data, 8000)
 	sources[0].QueueBuffers(bufs[0])
+	al.RewindSources(sources...)
 	al.PlaySources(sources...)
-	time.Sleep(10 * time.Second)
 
+	al.SetListenerGain(0.5)
+	fmt.Println(al.ListenerPosition())
+
+	time.Sleep(20 * time.Second)
 }

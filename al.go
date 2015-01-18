@@ -27,24 +27,40 @@ package al
 #include <OpenAL/alc.h>
 #endif
 
-ALCdevice *castAlcOpenDevice(const char *devicename) {
+ALCdevice *openDevice(const char *devicename) {
 	return alcOpenDevice(devicename);
 }
 
-void castALSourceQueueBuffers(ALuint sid, ALsizei numEntries, const void *bids) {
+void deleteBuffers(ALsizei n, const void *buffers) {
+	return alDeleteBuffers(n, buffers);
+}
+
+void sourceQueueBuffers(ALuint sid, ALsizei numEntries, const void *bids) {
 	return alSourceQueueBuffers(sid, numEntries, bids);
 }
 
-void castALSourcePlayv(ALsizei ns, const void *sids ) {
+void sourcePlayv(ALsizei ns, const void *sids) {
 	return alSourcePlayv(ns, sids);
 }
 
-void castALSourcePausev(ALsizei ns, const void *sids ) {
+void sourcePausev(ALsizei ns, const void *sids) {
 	return alSourcePausev(ns, sids);
 }
 
-void castALSourceStopv(ALsizei ns, const void *sids ) {
+void sourceStopv(ALsizei ns, const void *sids) {
 	return alSourceStopv(ns, sids);
+}
+
+void sourceRewindv(ALsizei ns, const void *sids) {
+	return alSourceRewindv(ns, sids);
+}
+
+void deleteSources(ALsizei n, const void *sources) {
+	return alDeleteSources(n, sources);
+}
+
+void getListenerfv(ALenum param, void* values) {
+	return alGetListenerf(param, values);
 }
 
 */
@@ -61,6 +77,10 @@ func Disable(capability int32) {
 
 func Enabled(capability int32) bool {
 	return toBoolAL(C.alIsEnabled(C.ALenum(capability)))
+}
+
+func ExtensionPresent(name string) bool {
+	panic("not yet")
 }
 
 func DistanceModel() int32 {
@@ -109,19 +129,19 @@ func GenSources(n int) []Source {
 }
 
 func PlaySources(source ...Source) {
-	C.castALSourcePlayv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+	C.sourcePlayv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func PauseSources(source ...Source) {
-	C.castALSourcePausev(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+	C.sourcePausev(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func StopSources(source ...Source) {
-	C.castALSourceStopv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+	C.sourceStopv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func RewindSources(source ...Source) {
-	panic("not yet implemented")
+	C.sourceRewindv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
 }
 
 func DeleteSources(source ...Source) {
@@ -162,7 +182,7 @@ func (s Source) SetPosition(v Vector) {
 
 func (s Source) QueueBuffers(buffer ...Buffer) {
 	n := len(buffer)
-	C.castALSourceQueueBuffers(C.ALuint(s), C.ALsizei(n), unsafe.Pointer(&buffer[0]))
+	C.sourceQueueBuffers(C.ALuint(s), C.ALsizei(n), unsafe.Pointer(&buffer[0]))
 }
 
 // TODO(jbd): Add SetPosition.
@@ -189,37 +209,48 @@ type Orientation struct {
 	Up      Vector
 }
 
-type Listener struct{}
+const (
+	alGain     = 0x100A
+	alPosition = 0x1004
+)
 
-func (l Listener) Gain() float32 {
+func listener3f(enum int) Vector {
+	p := make([]float32, 3)
+	C.getListenerfv(C.ALenum(enum), unsafe.Pointer(&p[0]))
+	return Vector{X: p[0], Y: p[1], Z: p[2]}
+}
+
+func ListenerGain() float32 {
+	var v C.ALfloat
+	C.alGetListenerf(C.ALenum(alGain), &v)
+	return float32(v)
+}
+
+func ListenerPosition() Vector {
+	return listener3f(alPosition)
+}
+
+func ListenerVelocity() Vector {
+	return listener3f(alVelocity)
+}
+
+func ListenerOrientation() Orientation {
 	panic("not yet implemented")
 }
 
-func (l Listener) Position() Vector {
+func SetListenerGain(v float32) {
+	C.alListenerf(C.ALenum(alGain), C.ALfloat(v))
+}
+
+func SetListenerPosition(v Vector) {
 	panic("not yet implemented")
 }
 
-func (l Listener) Velocity() Vector {
+func SetListenerVelocity(v Vector) {
 	panic("not yet implemented")
 }
 
-func (l Listener) Orientation() Orientation {
-	panic("not yet implemented")
-}
-
-func (l Listener) SetGain(v float32) {
-	panic("not yet implemented")
-}
-
-func (l Listener) SetPosition(v Vector) {
-	panic("not yet implemented")
-}
-
-func (l Listener) SetVelocity(v Vector) {
-	panic("not yet implemented")
-}
-
-func (l Listener) SetOrientation(o Orientation) {
+func SetListenerOrientation(o Orientation) {
 	panic("not yet implemented")
 }
 
@@ -236,7 +267,7 @@ func GenBuffers(n int) []Buffer {
 }
 
 func DeleteBuffers(buffer ...Buffer) {
-	panic("not yet imeplemented")
+	C.deleteBuffers(C.ALsizei(len(buffer)), unsafe.Pointer(&buffer[0]))
 }
 
 func (b Buffer) Freq() int32 {
@@ -260,7 +291,7 @@ func (b Buffer) BufferData(format int32, data []byte, freq int32) {
 }
 
 func (b Buffer) Valid() bool {
-	panic("not yet implemented")
+	return toBoolAL(C.alIsBuffer(C.ALuint(b)))
 }
 
 func toBoolAL(v C.ALboolean) bool {
@@ -280,8 +311,12 @@ type Context struct {
 func OpenDevice(name string) *Device {
 	n := C.CString(name)
 	defer C.free(unsafe.Pointer(n))
-	d := C.castAlcOpenDevice(n)
+	d := C.openDevice(n)
 	return &Device{d: d}
+}
+
+func CloseDevice(d *Device) bool {
+	return toBoolALC(C.alcCloseDevice(d.d))
 }
 
 func CreateContext(d *Device, attrs []int32) *Context {
