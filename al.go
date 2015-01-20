@@ -269,6 +269,10 @@ type Device struct {
 	d *C.ALCdevice
 }
 
+func (d *Device) Error() uint32 {
+	return uint32(C.alcGetError(d.d))
+}
+
 type Context struct {
 	c *C.ALCcontext
 }
@@ -291,12 +295,6 @@ func CreateContext(d *Device, attrs []int32) *Context {
 
 func MakeContextCurrent(c *Context) bool {
 	return toBoolALC(C.alcMakeContextCurrent(c.c))
-}
-
-// TODO: move to acl package and add constants.
-
-func AlcError(d *Device) uint32 {
-	return uint32(C.alcGetError(d.d))
 }
 
 func toBoolALC(v C.ALCboolean) bool {
