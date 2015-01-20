@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Package al contains low-level OpenAL bindings for Go.
+// This package is an intermediate package to build OpenAL with CGO.
+// The users should depend on golang.org/x/mobile/audio/al and
+// golang.org/x/mobile/audio/alc for higher-level bindings.
 package al
 
 // docker run -v $GOPATH/src:/src mobile /bin/bash -c 'cd /src/github.com/rakyll/al && CGO_ENABLED=1 GOARCH=arm GOARM=7  GOOS=android  go build  .'
@@ -303,7 +307,14 @@ func toBoolAL(v C.ALboolean) bool {
 	return int32(v) == TRUE
 }
 
-// ------------------------ ALC
+// ALC bindings starts here.
+// These are not in a seperate package, because CGO requires
+// all C files to be in the current directory and al and alc
+// have cross-dependencies to each other.
+// It requires duplication of code, build rules and building
+// the al/alc library twice to keep them separate.
+// The user will always have to depend on the higher-level
+// bindings rather than this package.
 
 type Device struct {
 	d *C.ALCdevice
