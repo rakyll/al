@@ -247,8 +247,10 @@ const (
 	FORMAT_STEREO16 = 0x1103
 )
 
-func Bufferf(b Buffer, param int) uint32 {
-	panic("not yet implemented")
+func Bufferi(b Buffer, param int) uint32 {
+	var v C.ALint
+	C.alGetBufferi(C.ALuint(b), C.ALenum(param), &v)
+	return uint32(v)
 }
 
 func BufferData(b Buffer, format int32, data []byte, freq int32) {
