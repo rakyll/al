@@ -134,8 +134,8 @@ const (
 	OUT_OF_MEMORY     = 0xA005
 )
 
-// Error returns the most recently generated error.
-func Error() uint32 {
+// GetError returns the most recently generated error.
+func GetError() uint32 {
 	return uint32(C.alGetError())
 }
 
@@ -267,7 +267,7 @@ type Device struct {
 	d *C.ALCdevice
 }
 
-func (d *Device) Error() uint32 {
+func (d *Device) GetError() uint32 {
 	return uint32(C.alcGetError(d.d))
 }
 
