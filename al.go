@@ -59,6 +59,14 @@ void sourceRewindv(ALsizei ns, const void *sids) {
 	return alSourceRewindv(ns, sids);
 }
 
+void getSourcefv(ALuint sid, ALenum param, void *values) {
+	return alGetSourcefv(sid, param, values);
+}
+
+void sourcefv(ALuint sid, ALenum param, const void *values) {
+	return alSourcefv(sid, param, values);
+}
+
 void deleteSources(ALsizei n, const void *sources) {
 	return alDeleteSources(n, sources);
 }
@@ -191,6 +199,34 @@ const (
 	SAMPLE_OFFSET     = 0x1025
 	BYTE_OFFSET       = 0x1026
 )
+
+func GetSourcei(s Source, param int) int32 {
+	var v C.ALint
+	C.alGetSourcei(C.ALuint(s), C.ALenum(param), &v)
+	return int32(v)
+}
+
+func GetSourcef(s Source, param int) float32 {
+	var v C.ALfloat
+	C.alGetSourcef(C.ALuint(s), C.ALenum(param), &v)
+	return float32(v)
+}
+
+func GetSourcefv(s Source, param int, v []float32) {
+	C.getSourcefv(C.ALuint(s), C.ALenum(param), unsafe.Pointer(&v[0]))
+}
+
+func SetSourcei(s Source, param int, v int32) {
+	C.alSourcei(C.ALuint(s), C.ALenum(param), C.ALint(v))
+}
+
+func SetSourcef(s Source, param int, v float32) {
+	C.alSourcef(C.ALuint(s), C.ALenum(param), C.ALfloat(v))
+}
+
+func SetSourcefv(s Source, param int, v []float32) {
+	C.alSourcefv(C.ALuint(s), C.ALenum(param), unsafe.Pointer(&v[0]))
+}
 
 func QueueBuffers(s Source, buffers []Buffer) {
 	C.sourceQueueBuffers(C.ALuint(s), C.ALsizei(len(buffers)), unsafe.Pointer(&buffers[0]))
