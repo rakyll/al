@@ -136,8 +136,8 @@ const (
 )
 
 // GetError returns the most recently generated error.
-func GetError() uint32 {
-	return uint32(C.alGetError())
+func GetError() int32 {
+	return int32(C.alGetError())
 }
 
 type Source int32
@@ -244,10 +244,10 @@ const (
 	FORMAT_STEREO16 = 0x1103
 )
 
-func GetBufferi(b Buffer, param int) uint32 {
+func GetBufferi(b Buffer, param int) int32 {
 	var v C.ALint
 	C.alGetBufferi(C.ALuint(b), C.ALenum(param), &v)
-	return uint32(v)
+	return int32(v)
 }
 
 func BufferData(b Buffer, format int32, data []byte, freq int32) {
@@ -268,8 +268,8 @@ type Device struct {
 	d *C.ALCdevice
 }
 
-func (d *Device) GetError() uint32 {
-	return uint32(C.alcGetError(d.d))
+func (d *Device) GetError() int32 {
+	return int32(C.alcGetError(d.d))
 }
 
 type Context struct {
