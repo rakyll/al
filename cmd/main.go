@@ -9,10 +9,8 @@ import (
 	"github.com/rakyll/al"
 )
 
-const size = 10
-
 func main() {
-	fmt.Println(al.Error())
+	fmt.Println(al.GetError())
 	d := al.OpenDevice("")
 	c := al.CreateContext(d, nil)
 	al.MakeContextCurrent(c)
