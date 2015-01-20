@@ -110,19 +110,20 @@ const (
 // DISTANCE_MODEL
 
 func Geti(param int) int32 {
-	panic("not implemented")
+	return int32(C.alGetInteger(C.ALenum(param)))
 }
 
 // DOPPLER_FACTOR, DOPPLER_VELOCITY, SPEED_OF_SOUND
 
 func Getf(param int) float32 {
-	panic("not implemented")
+	return float32(C.alGetFloat(C.ALenum(param)))
 }
 
 // VENDOR, VERSION, RENDERER, EXTENSIONS
 
 func GetString(param int) string {
-	panic("not implemented")
+	v := C.alGetString(C.ALenum(param))
+	return C.GoString((*C.char)(v))
 }
 
 // Error returns one of these error codes.
