@@ -83,7 +83,7 @@ func Disable(capability int32) {
 	C.alDisable(C.ALenum(capability))
 }
 
-func Enabled(capability int32) bool {
+func IsEnabled(capability int32) bool {
 	return toBoolAL(C.alIsEnabled(C.ALenum(capability)))
 }
 
