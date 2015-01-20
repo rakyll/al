@@ -138,13 +138,9 @@ func Error() uint32 {
 type Source int32
 
 func GenSources(n int) []Source {
-	s := make([]C.ALuint, n)
+	s := make([]Source, n)
 	C.alGenSources(C.ALsizei(n), (*C.ALuint)(unsafe.Pointer(&s[0])))
-	r := make([]Source, n)
-	for i, v := range s {
-		r[i] = Source(v)
-	}
-	return r
+	return s
 }
 
 func PlaySources(sources []Source) {
@@ -217,13 +213,9 @@ func SetListenerfv(param int, v []float32) {
 type Buffer int32
 
 func GenBuffers(n int) []Buffer {
-	s := make([]C.ALuint, n)
+	s := make([]Buffer, n)
 	C.alGenBuffers(C.ALsizei(n), (*C.ALuint)(unsafe.Pointer(&s[0])))
-	r := make([]Buffer, n)
-	for i, v := range s {
-		r[i] = Buffer(v)
-	}
-	return r
+	return s
 }
 
 func DeleteBuffers(buffers []Buffer) {
@@ -265,7 +257,7 @@ func toBoolAL(v C.ALboolean) bool {
 	return int32(v) == kTrue
 }
 
-// ------------------------ ALC (Move to the alc package)
+// ------------------------ ALC
 
 type Device struct {
 	d *C.ALCdevice
