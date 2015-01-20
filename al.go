@@ -229,7 +229,7 @@ func SetSourcef(s Source, param int, v float32) {
 }
 
 func SetSourcefv(s Source, param int, v []float32) {
-	C.alSourcefv(C.ALuint(s), C.ALenum(param), unsafe.Pointer(&v[0]))
+	C.sourcefv(C.ALuint(s), C.ALenum(param), unsafe.Pointer(&v[0]))
 }
 
 func QueueBuffers(s Source, buffers []Buffer) {
