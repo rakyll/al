@@ -140,7 +140,7 @@ func GetError() int32 {
 	return int32(C.alGetError())
 }
 
-type Source int32
+type Source uint32
 
 func GenSources(n int) []Source {
 	s := make([]Source, n)
@@ -215,7 +215,7 @@ func SetListenerfv(param int, v []float32) {
 	C.listenerfv(C.ALenum(param), unsafe.Pointer(&v[0]))
 }
 
-type Buffer int32
+type Buffer uint32
 
 func GenBuffers(n int) []Buffer {
 	s := make([]Buffer, n)
