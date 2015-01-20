@@ -63,8 +63,12 @@ void deleteSources(ALsizei n, const void *sources) {
 	return alDeleteSources(n, sources);
 }
 
-void getListenerfv(ALenum param, void* values) {
+void getListenerfv(ALenum param, void *values) {
 	return alGetListenerf(param, values);
+}
+
+void listenerfv(ALenum param, const void *values) {
+	return alListenerfv(param, values);
 }
 
 */
@@ -207,7 +211,7 @@ func SetListenerf(param int, v float32) {
 }
 
 func SetListenerfv(param int, v []float32) {
-	panic("not yet implemented")
+	C.listenerfv(C.ALenum(param), unsafe.Pointer(&v[0]))
 }
 
 type Buffer int32
