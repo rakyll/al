@@ -25,13 +25,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	bufs[0].BufferData(al.FORMAT_MONO16, data, 8000)
-	sources[0].QueueBuffers(bufs[0])
-	al.RewindSources(sources...)
-	al.PlaySources(sources...)
-
-	al.SetListenerGain(0.5)
-	fmt.Println(al.ListenerPosition())
+	al.BufferData(bufs[0], al.FORMAT_MONO16, data, 8000)
+	al.QueueBuffers(sources[0], bufs)
+	al.PlaySources(sources)
 
 	time.Sleep(20 * time.Second)
 }

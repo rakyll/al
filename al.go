@@ -39,6 +39,10 @@ void sourceQueueBuffers(ALuint sid, ALsizei numEntries, const void *bids) {
 	return alSourceQueueBuffers(sid, numEntries, bids);
 }
 
+void sourceUnqueueBuffers(ALuint sid, ALsizei numEntries, void *bids) {
+	return alSourceUnqueueBuffers(sid, numEntries, bids);
+}
+
 void sourcePlayv(ALsizei ns, const void *sids) {
 	return alSourcePlayv(ns, sids);
 }
@@ -79,37 +83,52 @@ func Enabled(capability int32) bool {
 	return toBoolAL(C.alIsEnabled(C.ALenum(capability)))
 }
 
-func ExtensionPresent(name string) bool {
-	panic("not yet")
-}
+// Global parameters.
+const (
+	DISTANCE_MODEL            = 0xD000
+	INVERSE_DISTANCE          = 0xD001
+	INVERSE_DISTANCE_CLAMPED  = 0xD002
+	LINEAR_DISTANCE           = 0xD003
+	LINEAR_DISTANCE_CLAMPED   = 0xD004
+	EXPONENT_DISTANCE         = 0xD005
+	EXPONENT_DISTANCE_CLAMPED = 0xD006
 
-func DistanceModel() int32 {
+	DOPPLER_FACTOR   = 0xC000
+	DOPPLER_VELOCITY = 0xC001
+	SPEED_OF_SOUND   = 0xC003
+
+	VENDOR     = 0xB001
+	VERSION    = 0xB002
+	RENDERER   = 0xB003
+	EXTENSIONS = 0xB004
+)
+
+// DISTANCE_MODEL
+
+func Geti(param int) int32 {
 	panic("not implemented")
 }
 
-func DopplerFactor() float32 {
+// DOPPLER_FACTOR, DOPPLER_VELOCITY, SPEED_OF_SOUND
+
+func Getf(param int) float32 {
 	panic("not implemented")
 }
 
-func DopplerVelocity() float32 {
+// VENDOR, VERSION, RENDERER, EXTENSIONS
+
+func GetString(param int) string {
 	panic("not implemented")
 }
 
-func SpeedOfSound() float32 {
-	panic("not implemented")
-}
-
-func SetDopplerFactor(v float32) {
-	panic("not implemented")
-}
-
-func SetDopplerVelocity(v float32) {
-	panic("not implemented")
-}
-
-func SetSpeedOfSound(v float32) {
-	panic("not implemented")
-}
+// Error returns one of these error codes.
+const (
+	INVALID_NAME      = 0xA001
+	INVALID_ENUM      = 0xA002
+	INVALID_VALUE     = 0xA003
+	INVALID_OPERATION = 0xA004
+	OUT_OF_MEMORY     = 0xA005
+)
 
 // Error returns the most recently generated error.
 func Error() uint32 {
@@ -128,129 +147,70 @@ func GenSources(n int) []Source {
 	return r
 }
 
-func PlaySources(source ...Source) {
-	C.sourcePlayv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+func PlaySources(sources []Source) {
+	C.sourcePlayv(C.ALsizei(len(sources)), unsafe.Pointer(&sources[0]))
 }
 
-func PauseSources(source ...Source) {
-	C.sourcePausev(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+func PauseSources(sources []Source) {
+	C.sourcePausev(C.ALsizei(len(sources)), unsafe.Pointer(&sources[0]))
 }
 
-func StopSources(source ...Source) {
-	C.sourceStopv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+func StopSources(sources []Source) {
+	C.sourceStopv(C.ALsizei(len(sources)), unsafe.Pointer(&sources[0]))
 }
 
-func RewindSources(source ...Source) {
-	C.sourceRewindv(C.ALsizei(len(source)), unsafe.Pointer(&source[0]))
+func RewindSources(sources []Source) {
+	C.sourceRewindv(C.ALsizei(len(sources)), unsafe.Pointer(&sources[0]))
 }
 
-func DeleteSources(source ...Source) {
-	panic("not yet implemented")
-}
-
-func (s Source) Gain() float32 {
-	panic("not yet implemented")
-}
-
-func (s Source) SetGain(v float32) {
-	panic("not yet implemented")
-}
-
-func (s Source) MaxGain() float32 {
-	panic("not yet implemented")
-}
-
-func (s Source) SetMaxGain(v float32) {
-	panic("not yet implemented")
-}
-
-func (s Source) MinGain() float32 {
-	panic("not yet implemented")
-}
-
-func (s Source) SetMinGain(v float32) {
-	panic("not yet implemented")
-}
-
-func (s Source) Position() Vector {
-	panic("not yet implemented")
-}
-
-func (s Source) SetPosition(v Vector) {
-	panic("not yet implemented")
-}
-
-func (s Source) QueueBuffers(buffer ...Buffer) {
-	n := len(buffer)
-	C.sourceQueueBuffers(C.ALuint(s), C.ALsizei(n), unsafe.Pointer(&buffer[0]))
-}
-
-// TODO(jbd): Add SetPosition.
-//
-/*
- * LISTENER
- * Listener represents the location and orientation of the
- * 'user' in 3D-space.
- *
- * Properties include: -
- *
- * Gain         AL_GAIN         ALfloat
- * Position     AL_POSITION     ALfloat[3]
- * Velocity     AL_VELOCITY     ALfloat[3]
- * Orientation  AL_ORIENTATION  ALfloat[6] (Forward then Up vectors)
- */
-
-type Vector struct {
-	X, Y, Z float32
-}
-
-type Orientation struct {
-	Forward Vector
-	Up      Vector
+func DeleteSources(sources []Source) {
+	C.deleteSources(C.ALsizei(len(sources)), unsafe.Pointer(&sources[0]))
 }
 
 const (
-	alGain     = 0x100A
-	alPosition = 0x1004
+	GAIN              = 0x100A
+	POSITION          = 0x1004
+	VELOCITY          = 0x1006
+	ORIENTATION       = 0x100F
+	MIN_GAIN          = 0x100D
+	MAX_GAIN          = 0x100E
+	SOURCE_STATE      = 0x1010
+	INITIAL           = 0x1011
+	PLAYING           = 0x1012
+	PAUSED            = 0x1013
+	STOPPED           = 0x1014
+	BUFFERS_QUEUED    = 0x1015
+	BUFFERS_PROCESSED = 0x1016
+	SEC_OFFSET        = 0x1024
+	SAMPLE_OFFSET     = 0x1025
+	BYTE_OFFSET       = 0x1026
 )
 
-func listener3f(enum int) Vector {
-	p := make([]float32, 3)
-	C.getListenerfv(C.ALenum(enum), unsafe.Pointer(&p[0]))
-	return Vector{X: p[0], Y: p[1], Z: p[2]}
+func QueueBuffers(s Source, buffers []Buffer) {
+	C.sourceQueueBuffers(C.ALuint(s), C.ALsizei(len(buffers)), unsafe.Pointer(&buffers[0]))
 }
 
-func ListenerGain() float32 {
+func UnqueueBuffers(s Source, buffers []Buffer) {
+	C.sourceUnqueueBuffers(C.ALuint(s), C.ALsizei(len(buffers)), unsafe.Pointer(&buffers[0]))
+}
+
+// Listener may have GAIN, POSITION, VELOCITY, ORIENTATION.
+
+func Listenerf(param int) float32 {
 	var v C.ALfloat
-	C.alGetListenerf(C.ALenum(alGain), &v)
+	C.alGetListenerf(C.ALenum(param), &v)
 	return float32(v)
 }
 
-func ListenerPosition() Vector {
-	return listener3f(alPosition)
+func Listenerfv(param int, v []float32) {
+	C.getListenerfv(C.ALenum(param), unsafe.Pointer(&v[0]))
 }
 
-func ListenerVelocity() Vector {
-	return listener3f(alVelocity)
+func SetListenerf(param int, v float32) {
+	C.alListenerf(C.ALenum(param), C.ALfloat(v))
 }
 
-func ListenerOrientation() Orientation {
-	panic("not yet implemented")
-}
-
-func SetListenerGain(v float32) {
-	C.alListenerf(C.ALenum(alGain), C.ALfloat(v))
-}
-
-func SetListenerPosition(v Vector) {
-	panic("not yet implemented")
-}
-
-func SetListenerVelocity(v Vector) {
-	panic("not yet implemented")
-}
-
-func SetListenerOrientation(o Orientation) {
+func SetListenerfv(param int, v []float32) {
 	panic("not yet implemented")
 }
 
@@ -266,31 +226,36 @@ func GenBuffers(n int) []Buffer {
 	return r
 }
 
-func DeleteBuffers(buffer ...Buffer) {
-	C.deleteBuffers(C.ALsizei(len(buffer)), unsafe.Pointer(&buffer[0]))
+func DeleteBuffers(buffers []Buffer) {
+	C.deleteBuffers(C.ALsizei(len(buffers)), unsafe.Pointer(&buffers[0]))
 }
 
-func (b Buffer) Freq() int32 {
+// Bufferf accepts one of these parameters.
+const (
+	FREQUENCY = 0x2001
+	BITS      = 0x2002
+	CHANNELS  = 0x2003
+	SIZE      = 0x2004
+)
+
+// Buffer formats. Buffer.BufferData accepts one of these formats
+// as the data format.
+const (
+	FORMAT_MONO8    = 0x1100
+	FORMAT_MONO16   = 0x1101
+	FORMAT_STEREO8  = 0x1102
+	FORMAT_STEREO16 = 0x1103
+)
+
+func Bufferf(b Buffer, param int) uint32 {
 	panic("not yet implemented")
 }
 
-func (b Buffer) Channels() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) Size() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) Bits() int32 {
-	panic("not yet implemented")
-}
-
-func (b Buffer) BufferData(format int32, data []byte, freq int32) {
+func BufferData(b Buffer, format int32, data []byte, freq int32) {
 	C.alBufferData(C.ALuint(b), C.ALenum(format), unsafe.Pointer(&data[0]), C.ALsizei(len(data)), C.ALsizei(freq))
 }
 
-func (b Buffer) Valid() bool {
+func IsBuffer(b Buffer) bool {
 	return toBoolAL(C.alIsBuffer(C.ALuint(b)))
 }
 
@@ -311,8 +276,7 @@ type Context struct {
 func OpenDevice(name string) *Device {
 	n := C.CString(name)
 	defer C.free(unsafe.Pointer(n))
-	d := C.openDevice(n)
-	return &Device{d: d}
+	return &Device{d: C.openDevice(n)}
 }
 
 func CloseDevice(d *Device) bool {
