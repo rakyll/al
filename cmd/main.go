@@ -29,8 +29,7 @@ func main() {
 	al.QueueBuffers(sources[0], bufs)
 	al.PlaySources(sources)
 
-	v := al.Bufferi(bufs[0], al.CHANNELS)
+	v := al.GetBufferi(bufs[0], al.CHANNELS)
 	fmt.Println("channels:", v)
-
-	time.Sleep(20 * time.Second)
+	time.Sleep(5 * time.Second)
 }

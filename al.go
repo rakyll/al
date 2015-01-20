@@ -192,13 +192,13 @@ func UnqueueBuffers(s Source, buffers []Buffer) {
 
 // Listener may have GAIN, POSITION, VELOCITY, ORIENTATION.
 
-func Listenerf(param int) float32 {
+func GetListenerf(param int) float32 {
 	var v C.ALfloat
 	C.alGetListenerf(C.ALenum(param), &v)
 	return float32(v)
 }
 
-func Listenerfv(param int, v []float32) {
+func GetListenerfv(param int, v []float32) {
 	C.getListenerfv(C.ALenum(param), unsafe.Pointer(&v[0]))
 }
 
@@ -239,7 +239,7 @@ const (
 	FORMAT_STEREO16 = 0x1103
 )
 
-func Bufferi(b Buffer, param int) uint32 {
+func GetBufferi(b Buffer, param int) uint32 {
 	var v C.ALint
 	C.alGetBufferi(C.ALuint(b), C.ALenum(param), &v)
 	return uint32(v)
