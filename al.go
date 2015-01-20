@@ -75,6 +75,11 @@ void listenerfv(ALenum param, const void *values) {
 import "C"
 import "unsafe"
 
+const (
+	FALSE = 0
+	TRUE  = 1
+)
+
 func Enable(capability int32) {
 	C.alEnable(C.ALenum(capability))
 }
@@ -259,7 +264,7 @@ func IsBuffer(b Buffer) bool {
 }
 
 func toBoolAL(v C.ALboolean) bool {
-	return int32(v) == kTrue
+	return int32(v) == TRUE
 }
 
 // ------------------------ ALC
@@ -297,5 +302,5 @@ func MakeContextCurrent(c *Context) bool {
 }
 
 func toBoolALC(v C.ALCboolean) bool {
-	return int32(v) == kTrue
+	return int32(v) == TRUE
 }
