@@ -8,7 +8,7 @@
 // golang.org/x/mobile/audio/alc for higher-level bindings.
 package al
 
-// docker run -v $GOPATH/src:/src mobile /bin/bash -c 'cd /src/github.com/rakyll/al && CGO_ENABLED=1 GOARCH=arm GOARM=7  GOOS=android  go build  .'
+// docker run -v $GOPATH/src:/src golang/mobile /bin/bash -c 'cd /src/github.com/rakyll/al && CGO_ENABLED=1 GOARCH=arm GOARM=7  GOOS=android  go build  .'
 
 /*
 #cgo darwin   CFLAGS: -DGOOS_darwin
